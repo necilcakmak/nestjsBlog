@@ -2,6 +2,7 @@ import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { User } from 'src/entity/user';
 import { ErrorResult } from 'src/helper/result/errorResult';
+import { BaseRepository } from 'src/repositories/base/base.repository';
 import { UserService } from 'src/services/user.service';
 import { AuthService } from '../services/auth.service';
 
@@ -25,10 +26,12 @@ export class AuthMiddleware implements NestMiddleware {
           .json(new ErrorResult('TokenNotValid', 'Token not valid.'));
       }
       const kullanici: User = await this.userService.get(
-        decodedToken.kullaniciId,
+        decodedToken.userId,
       );
       if (kullanici) {
         req.user = kullanici;
+        //oturum açan kullanıcıyı base repoya set edelim bunu kullanacağız.
+        BaseRepository.onlineUser = kullanici;
         next();
       } else {
         return res

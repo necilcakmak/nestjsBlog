@@ -1,5 +1,13 @@
 import { Role } from 'src/enum/role.enum';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Comment } from './comment';
 
 @Entity('user')
 export class User {
@@ -11,16 +19,18 @@ export class User {
   updatedDate?: Date;
   @Column({ type: 'boolean', default: true })
   isActive?: boolean;
-  @Column({ type: 'varchar', length: 30, unique: true  })
+  @Column({ type: 'varchar', length: 30, unique: true })
   nickname?: string;
   @Column({ type: 'varchar', length: 100 })
   password?: string;
   @Column({ type: 'varchar', length: 40, unique: true })
   email?: string;
-  @Column({ type: 'int'})
+  @Column({ type: 'int' })
   age?: number;
-  @Column({ type: 'boolean', default:1 })
+  @Column({ type: 'boolean', default: 1 })
   gender?: boolean;
   @Column({ type: 'varchar', default: Role.User })
   rol?: Role;
+  @OneToMany((type) => Comment, (comment) => comment.user)
+  comments?: Comment[];
 }

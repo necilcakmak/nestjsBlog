@@ -33,8 +33,7 @@ export class AuthService {
     }
     const jwt = await this.createJwtToken(user);
     let token: AccessToken = { token: jwt };
-    //oturum açan kullanıcıyı base repoya set edelim bunu kullanacağız.
-    BaseRepository.onlineUser = user;
+
     return new DataResult<AccessToken>(
       token,
       'LoginSuccess',
