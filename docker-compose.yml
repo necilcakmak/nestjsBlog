@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  main:
+    container_name: nestjs
+  
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8080:3000"
+    command: npm run start:dev
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - postgres
+    environment: 
+      DATABASE_URL: postgres://postgres:1234@postgres:5432/BlogDb
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
+      POSTGRES_DB: BlogDB
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - "35000:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+networks:
+  webnet:
+volumes:
+  pgdata:
