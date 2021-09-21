@@ -46,6 +46,12 @@ export class CommentController {
     return res;
   }
 
+  @Post('deleteEntities')
+  async deleteIds(@Body() entitiesId: number[]) {
+    const res = await this.commentService.deleteIds(entitiesId);
+    return res;
+  }
+
   @Put()
   async update(@Body() comment: Comment) {
     const res = await this.commentService.updateEntity(comment);

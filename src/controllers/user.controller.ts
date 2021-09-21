@@ -49,6 +49,12 @@ export class UserController {
     return res;
   }
 
+  @Post('deleteEntities')
+  async deleteIds(@Body() entitiesId: number[]) {
+    const res = await this.userService.deleteIds(entitiesId);
+    return res;
+  }
+
   @Put()
   async update(@Body() user: User) {
     const res = await this.userService.updateEntity(user);

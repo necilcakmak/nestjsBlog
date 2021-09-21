@@ -1,6 +1,6 @@
 import { User } from 'src/entity/user';
 import { FilterHelper } from 'src/helper/filterHelper';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { IBaseRepository } from './Ibase.repository';
 
 export class BaseRepository<T>
@@ -35,13 +35,23 @@ export class BaseRepository<T>
   }
 
   async deleteById(id: number): Promise<T> {
-    const entities = await this.findOne(id);
-    const res = await this.remove(entities);
+    const entity = await this.findOne(id);
+    const res = await this.remove(entity);
     return res;
   }
 
   async deleteEntity(entity: T): Promise<T> {
     const res = await this.remove(entity);
+    return res;
+  }
+
+  async deleteEntitiesId(entitiesId: number[]): Promise<DeleteResult> {
+    //obje olarak gelen ids arrayini, array haline çeviriyorum
+    Object.keys(entitiesId).forEach((item) => {
+      entitiesId = entitiesId[item];
+    });
+
+    const res = await this.delete(entitiesId);
     return res;
   }
 

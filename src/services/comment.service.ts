@@ -81,6 +81,23 @@ export class CommentService implements IBaseService<Comment> {
     }
   }
 
+  async deleteIds(entitiesId: number[]): Promise<Result> {
+    try {
+      const res = await this.commentRepository.deleteEntitiesId(entitiesId);
+      if (res.affected > 0) {
+        return new Result(
+          'DeleteSuccess',
+          'Entities deleted',
+          true,
+          res.affected,
+        );
+      }
+      return new ErrorResult('DeleteError', 'No record found to be deleted');
+    } catch (error) {
+      return new ErrorResult('DeleteError', error.message);
+    }
+  }
+
   async add(entity: Comment): Promise<DataResult<Comment>> {
     try {
       const res = await this.commentRepository.addEntity(entity);

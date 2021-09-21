@@ -45,6 +45,12 @@ export class ArticleController {
     return res;
   }
 
+  @Post('deleteEntities')
+  async deleteIds(@Body() entitiesId: number[]) {
+    const res = await this.articleService.deleteIds(entitiesId);
+    return res;
+  }
+
   @Put()
   async update(@Body() article: Article) {
     const res = await this.articleService.updateEntity(article);

@@ -81,6 +81,23 @@ export class CategoryService implements IBaseService<Category> {
     }
   }
 
+  async deleteIds(entitiesId: number[]): Promise<Result> {
+    try {
+      const res = await this.categoryRepository.deleteEntitiesId(entitiesId);
+      if (res.affected > 0) {
+        return new Result(
+          'DeleteSuccess',
+          'Entities deleted',
+          true,
+          res.affected,
+        );
+      }
+      return new ErrorResult('DeleteError', 'No record found to be deleted');
+    } catch (error) {
+      return new ErrorResult('DeleteError', error.message);
+    }
+  }
+
   async add(entity: Category): Promise<DataResult<Category>> {
     try {
       const res = await this.categoryRepository.addEntity(entity);

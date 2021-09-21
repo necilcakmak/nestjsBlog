@@ -84,6 +84,23 @@ export class ArticleService implements IBaseService<Article> {
     }
   }
 
+  async deleteIds(entitiesId: number[]): Promise<Result> {
+    try {
+      const res = await this.articleRepository.deleteEntitiesId(entitiesId);
+      if (res.affected > 0) {
+        return new Result(
+          'DeleteSuccess',
+          'Entities deleted',
+          true,
+          res.affected,
+        );
+      }
+      return new ErrorResult('DeleteError', 'No record found to be deleted');
+    } catch (error) {
+      return new ErrorResult('DeleteError', error.message);
+    }
+  }
+
   async add(entity: Article): Promise<DataResult<Article>> {
     try {
       const res = await this.articleRepository.addEntity(entity);

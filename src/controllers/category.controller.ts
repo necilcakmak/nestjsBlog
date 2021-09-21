@@ -45,6 +45,12 @@ export class CategoryController {
     return res;
   }
 
+  @Post('deleteEntities')
+  async deleteIds(@Body() entitiesId: number[]) {
+    const res = await this.categoryService.deleteIds(entitiesId);
+    return res;
+  }
+
   @Put()
   async update(@Body() category: Category) {
     const res = await this.categoryService.updateEntity(category);
