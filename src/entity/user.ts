@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 import { Article } from './article';
 import { Comment } from './comment';
-import { Permission } from './permission';
 
 @Entity('user')
 export class User {
@@ -31,10 +30,8 @@ export class User {
   age?: number;
   @Column({ type: 'boolean', default: 1 })
   gender?: boolean;
-  @Column({ type: 'varchar', default: Role.User })
+  @Column({ type: 'enum', enum: Role, default: Role.User })
   rol?: Role;
-  @OneToMany((type) => Permission, (per) => per.user)
-  permission?: Permission[];
   @OneToMany((type) => Comment, (comment) => comment.user)
   comments?: Comment[];
   @OneToMany((type) => Article, (article) => article.user)

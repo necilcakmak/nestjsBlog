@@ -11,6 +11,6 @@ export class Category extends BaseModel {
   categoryDescription?: string;
 
   @ManyToMany((type) => Article, (article) => article.categories)
-  @JoinTable({name:'category_article'})
+  @JoinTable({ name: 'category_article' })
   articles?: Article[];
 }

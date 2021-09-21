@@ -29,6 +29,11 @@ export class BaseRepository<T>
     return entities;
   }
 
+  async getByEntity(entity: T): Promise<T> {
+    const entities = await this.findOne({ where: entity });
+    return entities;
+  }
+
   async deleteById(id: number): Promise<T> {
     const entities = await this.findOne(id);
     const res = await this.remove(entities);

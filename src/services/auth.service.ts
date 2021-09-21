@@ -10,6 +10,7 @@ import { BaseRepository } from 'src/repositories/base/base.repository';
 import { Role } from 'src/enum/role.enum';
 import { User } from 'src/entity/user';
 import { UserRepository } from 'src/repositories/user.repository';
+import { RegisterDto } from 'src/dto/registerDto';
 
 @Injectable()
 export class AuthService {
@@ -19,32 +20,18 @@ export class AuthService {
   ) {}
 
   async login(loginDto: loginModel): Promise<DataResult<AccessToken>> {
-    const user = await this.userRepository.getByEmail(
-      loginDto.email,
-    );
-    if (
-      !user ||
-      !(await bcrypt.compare(loginDto.password, user.password))
-    ) {
-      return new ErrorResult(
-        'EmailOrPasswordError',
-        'Email or Password wrong',
-      );
+    const user = await this.userRepository.getByEmail(loginDto.email);
+    if (!user || !(await bcrypt.compare(loginDto.password, user.password))) {
+      return new ErrorResult('EmailOrPasswordError', 'Email or Password wrong');
     }
     const jwt = await this.createJwtToken(user);
     let token: AccessToken = { token: jwt };
 
-    return new DataResult<AccessToken>(
-      token,
-      'LoginSuccess',
-      'Login success',
-    );
+    return new DataResult<AccessToken>(token, 'LoginSuccess', 'Login success');
   }
 
-  async register(register: RegisterModel): Promise<DataResult<User>> {
-    const kullaniciInDb = await this.userRepository.getByEmail(
-      register.email,
-    );
+  async register(register: RegisterModel): Promise<DataResult<RegisterDto>> {
+    const kullaniciInDb = await this.userRepository.getByEmail(register.email);
     if (kullaniciInDb) {
       return new ErrorResult('EmailInDb', 'Email used');
     }
@@ -55,8 +42,12 @@ export class AuthService {
     }
     newUser.password = await bcrypt.hash(newUser.password, 12);
     const kullanici = await this.userRepository.addEntity(newUser);
-    return new DataResult<User>(
-      kullanici,
+    let registerDto: RegisterDto = {};
+    registerDto.email = kullanici.email;
+    registerDto.id = kullanici.id;
+    registerDto.nickname = kullanici.nickname;
+    return new DataResult<RegisterDto>(
+      registerDto,
       'RegisterSuccess',
       'Register success',
     );

@@ -36,6 +36,7 @@ export class UserController {
     return res;
   }
 
+  
   @Post()
   async add(@Body() user: User) {
     const res = await this.userService.add(user);
