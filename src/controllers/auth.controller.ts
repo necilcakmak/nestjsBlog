@@ -2,6 +2,7 @@ import { Body, Post } from '@nestjs/common';
 import { Controller } from '@nestjs/common/decorators/core/controller.decorator';
 import { loginModel } from 'src/dto/loginModel';
 import { RegisterModel } from 'src/dto/registerModel';
+
 import { AuthService } from 'src/services/auth.service';
 
 @Controller('Auth')

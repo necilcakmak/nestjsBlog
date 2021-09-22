@@ -7,7 +7,7 @@ import { BaseRepository } from './base/base.repository';
 @EntityRepository(User)
 export class UserRepository extends BaseRepository<User> {
   async getByEmail(email: string): Promise<User> {
-    const entities = await this.findOne({ email: email });
+    const entities = await this.findOne({ email });
     return entities;
   }
 }

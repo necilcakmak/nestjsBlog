@@ -100,6 +100,12 @@ export class CategoryService implements IBaseService<Category> {
 
   async add(entity: Category): Promise<DataResult<Category>> {
     try {
+      const categoryInDb =await this.categoryRepository.getByName(
+        entity.categoryName,
+      );
+      if (categoryInDb) {
+        return new ErrorResult('AddError', 'Category name used');
+      }
       const res = await this.categoryRepository.addEntity(entity);
       return new DataResult(res, 'AddSuccess', 'Entity added', 1);
     } catch (error) {

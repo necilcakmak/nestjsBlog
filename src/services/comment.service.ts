@@ -4,12 +4,17 @@ import { FilterHelper } from 'src/helper/filterHelper';
 import { DataResult } from 'src/helper/result/dataResult';
 import { ErrorResult } from 'src/helper/result/errorResult';
 import { Result } from 'src/helper/result/result';
+import { ArticleRepository } from 'src/repositories/article.repository';
 import { CommentRepository } from 'src/repositories/comment.repository';
+import { ArticleService } from './article.service';
 import { IBaseService } from './base/Ibase.service';
 
 @Injectable()
 export class CommentService implements IBaseService<Comment> {
-  constructor(private readonly commentRepository: CommentRepository) {}
+  constructor(
+    private readonly commentRepository: CommentRepository,
+    private readonly articleService: ArticleService,
+  ) {}
 
   async get(id: number): Promise<DataResult<Comment>> {
     try {
@@ -101,6 +106,13 @@ export class CommentService implements IBaseService<Comment> {
   async add(entity: Comment): Promise<DataResult<Comment>> {
     try {
       const res = await this.commentRepository.addEntity(entity);
+      if(!res){
+        return new ErrorResult('AddError','Comment not added')
+      }
+      const article = await this.articleService.get(entity.articleId);
+      article.data.commentCount += 1;
+      await this.articleService.updateEntity(article.data);
+      
       return new DataResult(res, 'AddSuccess', 'Entity added', 1);
     } catch (error) {
       return new ErrorResult('AddError', error.message);

@@ -24,6 +24,9 @@ export class Article extends BaseModel {
   @Column({ type: 'int', default: 0 })
   viewCount?: number;
 
+  @Column({ type: 'int', default: 0 })
+  commentCount?: number;
+
   @Column({ type: 'int'})
   userId?: number;
 

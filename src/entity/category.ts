@@ -4,7 +4,7 @@ import { BaseModel } from './baseModel';
 
 @Entity('category')
 export class Category extends BaseModel {
-  @Column({ type: 'varchar', length: 50, nullable: false })
+  @Column({ type: 'varchar', length: 50, nullable: false,unique:true })
   categoryName?: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })

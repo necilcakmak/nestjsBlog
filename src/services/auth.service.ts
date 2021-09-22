@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { loginModel } from 'src/dto/loginModel';
-import { RegisterModel } from 'src/dto/registerModel';
-import { AccessToken } from 'src/entity/accessToken';
+
+import { AccessToken } from 'src/dto/accessToken';
 import * as bcrypt from 'bcrypt';
 import { DataResult } from 'src/helper/result/dataResult';
 import { ErrorResult } from 'src/helper/result/errorResult';
-import { BaseRepository } from 'src/repositories/base/base.repository';
 import { Role } from 'src/enum/role.enum';
 import { User } from 'src/entity/user';
 import { UserRepository } from 'src/repositories/user.repository';
 import { RegisterDto } from 'src/dto/registerDto';
+import { RegisterModel } from 'src/dto/registerModel';
+
 
 @Injectable()
 export class AuthService {
