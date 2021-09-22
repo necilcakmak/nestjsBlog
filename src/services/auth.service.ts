@@ -12,7 +12,6 @@ import { UserRepository } from 'src/repositories/user.repository';
 import { RegisterDto } from 'src/dto/registerDto';
 import { RegisterModel } from 'src/dto/registerModel';
 
-
 @Injectable()
 export class AuthService {
   constructor(

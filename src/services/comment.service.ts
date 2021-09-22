@@ -13,7 +13,7 @@ import { IBaseService } from './base/Ibase.service';
 export class CommentService implements IBaseService<Comment> {
   constructor(
     private readonly commentRepository: CommentRepository,
-    private readonly articleService: ArticleService,
+    private readonly articleRepository: ArticleRepository,
   ) {}
 
   async get(id: number): Promise<DataResult<Comment>> {
@@ -109,9 +109,9 @@ export class CommentService implements IBaseService<Comment> {
       if(!res){
         return new ErrorResult('AddError','Comment not added')
       }
-      const article = await this.articleService.get(entity.articleId);
-      article.data.commentCount += 1;
-      await this.articleService.updateEntity(article.data);
+      const article = await this.articleRepository.getById(entity.articleId);
+      article.commentCount += 1;
+      await this.articleRepository.updateEntity(article);
       
       return new DataResult(res, 'AddSuccess', 'Entity added', 1);
     } catch (error) {
