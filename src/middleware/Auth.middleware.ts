@@ -1,3 +1,4 @@
+import { Permission } from './../entity/permission';
 import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { User } from 'src/entity/user';
@@ -10,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 export interface RequestModel extends Request {
   user: User;
 }
+const authorazationPath: string[] = ['user'];//burada ki pathler oturum isteyen pathler
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -26,7 +28,9 @@ export class AuthMiddleware implements NestMiddleware {
           .status(HttpStatus.UNAUTHORIZED)
           .json(new ErrorResult('TokenNotValid', 'Token not valid.'));
       }
-      const kullanici: DataResult<User> = await this.userService.get(decodedToken.userId);
+      const kullanici: DataResult<User> = await this.userService.get(
+        decodedToken.userId,
+      );
       if (kullanici.data) {
         req.user = kullanici.data;
         //oturum açan kullanıcıyı base repoya set edelim bunu kullanacağız.

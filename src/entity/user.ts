@@ -1,8 +1,10 @@
+import { Permission } from './permission';
 import { Role } from 'src/enum/role.enum';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -36,4 +38,6 @@ export class User {
   comments?: Comment[];
   @OneToMany((type) => Article, (article) => article.user)
   articles?: Article[];
+  @OneToMany((type) => Permission, (per) => per.user)
+  permissions?: Permission[];
 }
