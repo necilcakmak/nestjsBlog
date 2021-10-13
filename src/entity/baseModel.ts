@@ -15,6 +15,4 @@ export abstract class BaseModel {
   updatedDate?: Date;
   @Column({ type: 'boolean', default: true })
   isActive?: boolean;
-  @Column({ type: 'int' })
-  createdUserId?: number = BaseRepository.onlineUser.id;
 }

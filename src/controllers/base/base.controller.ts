@@ -17,7 +17,7 @@ export abstract class BaseController<T> {
     return res;
   }
 
-  @Get('getbyid')
+  @Get('getbyid/:id')
   async get(@Param('id') id: number) {
     const res = await this.baseService.get(id);
     return res;
@@ -29,7 +29,7 @@ export abstract class BaseController<T> {
     return res;
   }
 
-  @Delete('delete')
+  @Delete('delete/:id')
   async delete(@Param('id') id: number) {
     const res = await this.baseService.deleteById(id);
     return res;

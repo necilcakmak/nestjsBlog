@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 export interface RequestModel extends Request {
   user: User;
 }
-const authorazationPath: string[] = ['user'];//burada ki pathler oturum isteyen pathler
+const authorazationPath: string[] = ['user'];//burada ki pathler role bakan pathler
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {

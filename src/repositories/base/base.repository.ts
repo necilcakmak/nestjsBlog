@@ -46,7 +46,7 @@ export class BaseRepository<T>
   }
 
   async deleteEntitiesId(entitiesId: number[]): Promise<DeleteResult> {
-    //obje olarak gelen ids arrayini, array haline çeviriyorum
+    //obje olarak gelen entitiesId arrayini, array haline çeviriyorum
     Object.keys(entitiesId).forEach((item) => {
       entitiesId = entitiesId[item];
     });
